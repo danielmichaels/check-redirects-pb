@@ -1,6 +1,6 @@
-import {Dialog, Disclosure} from "@headlessui/react"
+import {Dialog, DialogPanel, DialogTitle, Disclosure, DisclosureButton, DisclosurePanel} from "@headlessui/react"
 import { ChevronDownIcon, GlobeAsiaAustraliaIcon } from "@heroicons/react/24/outline"
-import {HopsRecord} from "~/lib/pocketbase-types";
+import {HopsRecord, HopsResponse} from "~/lib/pocketbase-types";
 import {classNames} from "~/lib/utils";
 import IpGeoVisualization from "~/components/IpGeoVisualisation";
 
@@ -8,8 +8,10 @@ import { Light as SyntaxHighlighter } from 'react-syntax-highlighter'
 import html from 'react-syntax-highlighter/dist/esm/languages/hljs/xml'
 import atomOneDark from 'react-syntax-highlighter/dist/esm/styles/hljs/atom-one-dark'
 import {useState} from "react";
+import {IpInfo} from "~/lib/types";
 // Register the HTML language
 SyntaxHighlighter.registerLanguage('html', html)
+
 
 const tabs = [
   { name: 'IP Info', href: 'ip-info', current: true },
@@ -17,9 +19,9 @@ const tabs = [
   { name: 'Headers', href: 'headers', current: false },
 ]
 
-export function ResultAnalysis({ hops }: { hops: HopsRecord[] }) {
+export function ResultAnalysis({ hops }: { hops: HopsResponse<unknown, IpInfo>[] }) {
 const [isBodyOpen, setIsBodyOpen] = useState(false)
-const [selectedBody, setSelectedBody] = useState('')
+const [selectedBody, setSelectedBody] = useState<string | undefined>('')
 
   return (
     <div id="link-analysis" className="mt-5">
@@ -30,7 +32,7 @@ const [selectedBody, setSelectedBody] = useState('')
         <ul className="divide-y divide-gray-200">
           {hops.map((hop) => (
             <li key={hop.hop_number}>
-              <Disclosure className="block hover:bg-gray-50">
+              <Disclosure as="div" className="block hover:bg-gray-50">
                 {({open}) => (
                   <>
                     <div className="flex items-center px-4 py-4 sm:px-6">
@@ -52,25 +54,25 @@ const [selectedBody, setSelectedBody] = useState('')
                         </div>
                       </div>
                       <div className="hidden sm:block">
-                        <Disclosure.Button className="-ml-px relative inline-flex items-center px-4 py-2 rounded-md border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500">
+                        <DisclosureButton className="-ml-px relative inline-flex items-center px-4 py-2 rounded-md border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500">
                           Domain Details
                           <ChevronDownIcon
                             className={classNames(open ? "-rotate-180" : "rotate-0", "h-5 w-5 transform")}
                             aria-hidden="true"
                           />
-                        </Disclosure.Button>
+                        </DisclosureButton>
                       </div>
                       <div className="sm:hidden">
-                        <Disclosure.Button className="-ml-px relative inline-flex items-center px-4 py-2 rounded-md border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500">
+                        <DisclosureButton className="-ml-px relative inline-flex items-center px-4 py-2 rounded-md border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500">
                           <ChevronDownIcon
                             className={classNames(open ? "-rotate-180" : "rotate-0", "h-5 w-5 transform")}
                             aria-hidden="true"
                           />
-                        </Disclosure.Button>
+                        </DisclosureButton>
                       </div>
                     </div>
 
-                    <Disclosure.Panel>
+                    <DisclosurePanel>
                       <div>
                         <nav className="mx-4 relative z-0 rounded-lg shadow flex divide-x divide-gray-200" aria-label="Tabs">
                           {tabs.map((tab) => (
@@ -112,7 +114,7 @@ const [selectedBody, setSelectedBody] = useState('')
                               IP Address Information
                             </h3>
                             <ul className="divide-y divide-gray-200">
-                              {Object.entries(hop.ipinfo).map(([key, value], index) => (
+                              {hop.ipinfo && Object.entries(hop.ipinfo).map(([key, value], index) => (
                                 <li key={index} className={classNames(value ? "" : "hidden", "py-1")}>
                                   <div className="relative focus-within:ring-2 focus-within:ring-indigo-500">
                                     <h3 className="text-sm font-semibold text-gray-800">
@@ -131,10 +133,12 @@ const [selectedBody, setSelectedBody] = useState('')
                             <h3 className="text-lg text-indigo-500 my-3 mx-auto">
                               Server IP Geolocation
                             </h3>
-                            <IpGeoVisualization
-                              lat={parseFloat(hop.ipinfo.latitude)}
-                              lon={parseFloat(hop.ipinfo.longitude)}
-                            />
+                            {hop.ipinfo && (
+                              <IpGeoVisualization
+                                lat={parseFloat(hop.ipinfo.latitude)}
+                                lon={parseFloat(hop.ipinfo.longitude)}
+                              />
+                            )}
                           </div>
                         </div>
                       </div>
@@ -142,19 +146,19 @@ const [selectedBody, setSelectedBody] = useState('')
                       <div className="px-4 py-5 sm:p-6" id={`headers-${hop.id}`}>
                         <h3 className="text-lg text-indigo-500 my-3 mx-auto">Headers</h3>
                         <ul className="divide-y divide-gray-200">
-                          {Object.entries(hop.headers).map(([key, value], index) => (
+                          {Object.entries(hop.headers as Record<string, unknown>).map(([key, value], index) => (
                             <li key={index} className={classNames(value ? "" : "hidden", "py-1")}>
                               <div className="relative focus-within:ring-2 focus-within:ring-indigo-500">
                                 <h3 className="text-sm font-semibold text-gray-800">
                                   <p className="text-sm text-gray-600 capitalize">{key}:</p>
                                 </h3>
-                                <p className="mt-0 text-sm text-gray-600 line-clamp-2">{value}</p>
+                                <p className="mt-0 text-sm text-gray-600 line-clamp-2">{String(value)}</p>
                               </div>
                             </li>
                           ))}
                         </ul>
                       </div>
-                    </Disclosure.Panel>
+                    </DisclosurePanel>
                   </>
                 )}
               </Disclosure>
@@ -166,10 +170,10 @@ const [selectedBody, setSelectedBody] = useState('')
         <Dialog open={isBodyOpen} onClose={() => setIsBodyOpen(false)} className="relative z-50">
             <div className="fixed inset-0 bg-black/30" aria-hidden="true" />
             <div className="fixed inset-0 flex items-center justify-center p-4">
-                <Dialog.Panel className="w-full max-w-4xl transform overflow-hidden rounded-2xl bg-gray-900 p-6 text-left align-middle shadow-xl transition-all">
-                    <Dialog.Title className="text-lg font-medium text-white mb-4">
+                <DialogPanel className="w-full max-w-4xl transform overflow-hidden rounded-2xl bg-gray-900 p-6 text-left align-middle shadow-xl transition-all">
+                    <DialogTitle className="text-lg font-medium text-white mb-4">
                         HTML Body
-                    </Dialog.Title>
+                    </DialogTitle>
                     <div className="max-h-[70vh] overflow-auto">
                         <SyntaxHighlighter
                             language="html"
@@ -180,10 +184,10 @@ const [selectedBody, setSelectedBody] = useState('')
                                 margin: 0
                             }}
                         >
-                            {selectedBody}
+                            {selectedBody || ""}
                         </SyntaxHighlighter>
                     </div>
-                </Dialog.Panel>
+                </DialogPanel>
             </div>
         </Dialog>
     </div>

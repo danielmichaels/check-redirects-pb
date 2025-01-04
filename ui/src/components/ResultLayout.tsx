@@ -2,10 +2,10 @@ import { Fragment, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import {
   HomeIcon,
-    TableCellsIcon,
+  TableCellsIcon,
   FolderIcon,
   AtSymbolIcon,
-  XMarkIcon as XIcon,
+  XMarkIcon as XIcon, Bars2Icon,
 } from '@heroicons/react/24/outline'
 import {classNames} from "~/lib/utils";
 
@@ -22,9 +22,10 @@ export function ResultLayout({ children }: { children: React.ReactNode }) {
   return (
     <div className="h-screen flex overflow-hidden bg-gray-50">
       {/* Mobile sidebar */}
-      <Transition.Root show={sidebarOpen} as={Fragment}>
+      <Transition show={sidebarOpen} as={Fragment}>
         <Dialog as="div" className="fixed inset-0 flex z-40 md:hidden" onClose={setSidebarOpen}>
-          <Transition.Child
+          <Transition
+              show={sidebarOpen}
             as={Fragment}
             enter="transition-opacity ease-linear duration-300"
             enterFrom="opacity-0"
@@ -33,9 +34,10 @@ export function ResultLayout({ children }: { children: React.ReactNode }) {
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
           >
-            <Dialog.Overlay className="fixed inset-0 bg-gray-600 bg-opacity-75" />
-          </Transition.Child>
-          <Transition.Child
+            <div className="fixed inset-0 bg-gray-600 bg-opacity-75" />
+          </Transition>
+          <Transition
+              show={sidebarOpen}
             as={Fragment}
             enter="transition ease-in-out duration-300 transform"
             enterFrom="-translate-x-full"
@@ -71,9 +73,9 @@ export function ResultLayout({ children }: { children: React.ReactNode }) {
                 ))}
               </nav>
             </div>
-          </Transition.Child>
+          </Transition>
         </Dialog>
-      </Transition.Root>
+      </Transition>
 
       {/* Desktop sidebar */}
       <div className="hidden md:flex md:flex-shrink-0">
@@ -102,20 +104,15 @@ export function ResultLayout({ children }: { children: React.ReactNode }) {
 
       {/* Main content */}
       <div className="flex flex-col w-0 flex-1 overflow-hidden">
-        {/*<div className="relative z-10 flex-shrink-0 flex h-16 bg-white shadow">*/}
-        {/*  <button*/}
-        {/*    type="button"*/}
-        {/*    className="px-4 border-r border-gray-200 text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500 md:hidden"*/}
-        {/*    onClick={() => setSidebarOpen(true)}*/}
-        {/*  >*/}
-        {/*    <MenuAlt2Icon className="h-6 w-6" aria-hidden="true" />*/}
-        {/*  </button>*/}
-        {/*  <div className="flex-1 px-4 flex justify-between">*/}
-        {/*    <div className="flex-1 flex">*/}
-        {/*      /!*<SearchBar />*!/*/}
-        {/*    </div>*/}
-        {/*  </div>*/}
-        {/*</div>*/}
+        <div className="relative z-10 flex-shrink-0 flex h-16 bg-white shadow">
+          <button
+            type="button"
+            className="px-4 border-r border-gray-200 text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500 md:hidden"
+            onClick={() => setSidebarOpen(true)}
+          >
+            <Bars2Icon className="h-6 w-6" aria-hidden="true" />
+          </button>
+        </div>
 
         <main className="flex-1 relative overflow-y-auto focus:outline-none">
           <div className="py-6">

@@ -1,11 +1,13 @@
 import { Link } from '@tanstack/react-router'
-import {SearchesResponse} from "~/lib/pocketbase-types";
+import {ExpandedSearchResponse} from "~/lib/types";
 
-export function FinalResult({ resultArray }: SearchesResponse) {
-  if (resultArray.length === 0) return null
 
-  const link = resultArray.final_url
-  const totalRedirects = resultArray.total_hops
+
+export function FinalResult(props : ExpandedSearchResponse) {
+  if (!props) return null
+
+  const link = props.final_url
+  const totalRedirects = props.total_hops
   const stats = [
     { label: 'Total Hops', value: totalRedirects },
   ]
@@ -18,7 +20,7 @@ export function FinalResult({ resultArray }: SearchesResponse) {
           <div className="sm:flex sm:items-center sm:justify-between">
             <div className="sm:flex sm:space-x-5">
               <div className="mt-4 text-center sm:mt-0 sm:pt-1 sm:text-left">
-                <p className="text-xl font-bold text-gray-900 sm:text-2xl">{resultArray.final_url}</p>
+                <p className="text-xl font-bold text-gray-900 sm:text-2xl">{props.final_url}</p>
                 <p className="text-sm font-medium text-gray-600">Domain Result</p>
                 <p className="mt-2 text-sm font-medium text-indigo-700 hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                   <Link to={link}>{link}</Link>

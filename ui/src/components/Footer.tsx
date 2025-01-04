@@ -1,3 +1,5 @@
+import {SocialNavItem} from "~/lib/types";
+
 const getCurrentYear = () => {
     return new Date().getFullYear();
 };

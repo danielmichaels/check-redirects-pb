@@ -1,12 +1,13 @@
 import { createLazyFileRoute } from '@tanstack/react-router'
 import {useEffect} from "react";
 import {pb} from "~/lib/pocketbase";
-import {Collections, SearchesResponse} from "~/lib/pocketbase-types";
+import {Collections} from "~/lib/pocketbase-types";
 import {useQuery, useQueryClient} from "@tanstack/react-query";
 import {ResultLayout} from "~/components/ResultLayout";
 import {FinalResult} from "~/components/FinalResult";
 import {SummaryTable} from "~/components/SummaryTable";
 import {ResultAnalysis} from "~/components/ResultAnalysis";
+import {ExpandedSearchResponse} from "~/lib/types";
 
 export const Route = createLazyFileRoute('/results_/$resultId')({
   component: RouteComponent,
@@ -19,7 +20,7 @@ function RouteComponent() {
   const searchQuery = useQuery({
     queryKey: ["searches", resultId],
     queryFn: async () => {
-      return await pb.collection(Collections.Searches).getOne<SearchesResponse>(resultId, {
+      return await pb.collection(Collections.Searches).getOne<ExpandedSearchResponse>(resultId, {
         sort: "-created",
         expand: "hops_via_search_id",
       });
@@ -36,7 +37,7 @@ function RouteComponent() {
     return () => {
       pb.collection(Collections.Searches).unsubscribe(resultId);
     };
-  }, [queryClient]);
+  }, [queryClient, resultId]);
 
 
   if (searchQuery.isLoading || !searchQuery.data) {
@@ -57,7 +58,7 @@ function RouteComponent() {
   return (
       <>
         <ResultLayout>
-            <FinalResult resultArray={searchQuery.data} />
+            <FinalResult {...searchQuery.data} />
             <SummaryTable hops={searchQuery.data.expand.hops_via_search_id} />
             <ResultAnalysis hops={searchQuery.data.expand.hops_via_search_id} />
         </ResultLayout>
