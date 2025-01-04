@@ -1,0 +1,33 @@
+version: '3'
+
+dotenv:
+  - .env
+
+tasks:
+  default:
+    cmds:
+      - task --list-all
+    silent: true
+  dev:
+    desc: Run the embedded server with UI and PB together
+    env:
+      NODE_ENV: development
+    cmds:
+      - |
+        air -build.pre_cmd="cd ui/ && pnpm run build" \
+        -build.args_bin="--dir=$(pwd)/pb_data \
+        --dev=true serve {{.CLI_ARGS}}"
+  api:
+    desc: Run the server with hot reload and pass through any additional args
+    summary: Use this to run the serve isolated, typically when also running UI IDE
+    cmds:
+      - | 
+        air -build.args_bin="--dir=$(pwd)/pb_data \
+        --dev=true serve {{.CLI_ARGS}}"
+    silent: true
+  ui:
+    desc: Run the UI
+    summary: Use this to run the UI isolated, typically when also running server
+    dir: ./ui
+    cmds:
+      - pnpm run dev
