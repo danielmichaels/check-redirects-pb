@@ -106,6 +106,7 @@ const handleExampleClick = (exampleUrl: string) => {
               <div className="flex justify-center items-center">
                 <button
                   type="submit"
+                  disabled={mutation.isPending}
                   className=" justify-center py-2 px-5 w-full lg:w-1/3 md:w-3/4 xl:w-1/2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                 >
                   {mutation.isPending ? "Searching" : "Search" }

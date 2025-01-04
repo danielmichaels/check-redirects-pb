@@ -20,6 +20,14 @@ const TanStackRouterDevtools =
 
 export const Route = createRootRoute({
     notFoundComponent: NotFound404,
+    errorComponent: () => (
+        <div className="flex items-center justify-center h-screen">
+            <div className="text-center">
+                <h1 className="text-2xl font-bold text-gray-900">Something went wrong</h1>
+                <p className="mt-2 text-gray-600">Please try again later</p>
+            </div>
+        </div>
+    ),
     component: () => (
         <>
             <div className="min-h-screen flex flex-col">
