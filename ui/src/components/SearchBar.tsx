@@ -27,10 +27,10 @@ const examples = [
 ];
 
 export default function SearchBar() {
-  const [url, setUrl] = useState("");
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const url = "api/search";
   const navigate = useNavigate();
-  let concatUrl = `${getUrlWithPort()}${url}`;
+  let concatUrl = `${getUrlWithPort()}/${url}`;
   if (POCKETBASE_URL !== "/") {
     concatUrl = `${POCKETBASE_URL}${url}`;
   }
