@@ -8,120 +8,120 @@
 // You should NOT make any changes in this file as it will be overwritten.
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute } from "@tanstack/react-router";
 
 // Import Routes
 
-import { Route as rootRoute } from './routes/__root'
-import { Route as AboutImport } from './routes/about'
+import { Route as rootRoute } from "./routes/__root";
+import { Route as AboutImport } from "./routes/about";
 
 // Create Virtual Routes
 
-const CodesLazyImport = createFileRoute('/codes')()
-const IndexLazyImport = createFileRoute('/')()
-const ResultsResultIdLazyImport = createFileRoute('/results_/$resultId')()
+const CodesLazyImport = createFileRoute("/codes")();
+const IndexLazyImport = createFileRoute("/")();
+const ResultsResultIdLazyImport = createFileRoute("/results_/$resultId")();
 
 // Create/Update Routes
 
 const CodesLazyRoute = CodesLazyImport.update({
-  id: '/codes',
-  path: '/codes',
+  id: "/codes",
+  path: "/codes",
   getParentRoute: () => rootRoute,
-} as any).lazy(() => import('./routes/codes.lazy').then((d) => d.Route))
+} as any).lazy(() => import("./routes/codes.lazy").then((d) => d.Route));
 
 const AboutRoute = AboutImport.update({
-  id: '/about',
-  path: '/about',
+  id: "/about",
+  path: "/about",
   getParentRoute: () => rootRoute,
-} as any)
+} as any);
 
 const IndexLazyRoute = IndexLazyImport.update({
-  id: '/',
-  path: '/',
+  id: "/",
+  path: "/",
   getParentRoute: () => rootRoute,
-} as any).lazy(() => import('./routes/index.lazy').then((d) => d.Route))
+} as any).lazy(() => import("./routes/index.lazy").then((d) => d.Route));
 
 const ResultsResultIdLazyRoute = ResultsResultIdLazyImport.update({
-  id: '/results_/$resultId',
-  path: '/results/$resultId',
+  id: "/results_/$resultId",
+  path: "/results/$resultId",
   getParentRoute: () => rootRoute,
 } as any).lazy(() =>
-  import('./routes/results_.$resultId.lazy').then((d) => d.Route),
-)
+  import("./routes/results_.$resultId.lazy").then((d) => d.Route),
+);
 
 // Populate the FileRoutesByPath interface
 
-declare module '@tanstack/react-router' {
+declare module "@tanstack/react-router" {
   interface FileRoutesByPath {
-    '/': {
-      id: '/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof IndexLazyImport
-      parentRoute: typeof rootRoute
-    }
-    '/about': {
-      id: '/about'
-      path: '/about'
-      fullPath: '/about'
-      preLoaderRoute: typeof AboutImport
-      parentRoute: typeof rootRoute
-    }
-    '/codes': {
-      id: '/codes'
-      path: '/codes'
-      fullPath: '/codes'
-      preLoaderRoute: typeof CodesLazyImport
-      parentRoute: typeof rootRoute
-    }
-    '/results_/$resultId': {
-      id: '/results_/$resultId'
-      path: '/results/$resultId'
-      fullPath: '/results/$resultId'
-      preLoaderRoute: typeof ResultsResultIdLazyImport
-      parentRoute: typeof rootRoute
-    }
+    "/": {
+      id: "/";
+      path: "/";
+      fullPath: "/";
+      preLoaderRoute: typeof IndexLazyImport;
+      parentRoute: typeof rootRoute;
+    };
+    "/about": {
+      id: "/about";
+      path: "/about";
+      fullPath: "/about";
+      preLoaderRoute: typeof AboutImport;
+      parentRoute: typeof rootRoute;
+    };
+    "/codes": {
+      id: "/codes";
+      path: "/codes";
+      fullPath: "/codes";
+      preLoaderRoute: typeof CodesLazyImport;
+      parentRoute: typeof rootRoute;
+    };
+    "/results_/$resultId": {
+      id: "/results_/$resultId";
+      path: "/results/$resultId";
+      fullPath: "/results/$resultId";
+      preLoaderRoute: typeof ResultsResultIdLazyImport;
+      parentRoute: typeof rootRoute;
+    };
   }
 }
 
 // Create and export the route tree
 
 export interface FileRoutesByFullPath {
-  '/': typeof IndexLazyRoute
-  '/about': typeof AboutRoute
-  '/codes': typeof CodesLazyRoute
-  '/results/$resultId': typeof ResultsResultIdLazyRoute
+  "/": typeof IndexLazyRoute;
+  "/about": typeof AboutRoute;
+  "/codes": typeof CodesLazyRoute;
+  "/results/$resultId": typeof ResultsResultIdLazyRoute;
 }
 
 export interface FileRoutesByTo {
-  '/': typeof IndexLazyRoute
-  '/about': typeof AboutRoute
-  '/codes': typeof CodesLazyRoute
-  '/results/$resultId': typeof ResultsResultIdLazyRoute
+  "/": typeof IndexLazyRoute;
+  "/about": typeof AboutRoute;
+  "/codes": typeof CodesLazyRoute;
+  "/results/$resultId": typeof ResultsResultIdLazyRoute;
 }
 
 export interface FileRoutesById {
-  __root__: typeof rootRoute
-  '/': typeof IndexLazyRoute
-  '/about': typeof AboutRoute
-  '/codes': typeof CodesLazyRoute
-  '/results_/$resultId': typeof ResultsResultIdLazyRoute
+  __root__: typeof rootRoute;
+  "/": typeof IndexLazyRoute;
+  "/about": typeof AboutRoute;
+  "/codes": typeof CodesLazyRoute;
+  "/results_/$resultId": typeof ResultsResultIdLazyRoute;
 }
 
 export interface FileRouteTypes {
-  fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/about' | '/codes' | '/results/$resultId'
-  fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about' | '/codes' | '/results/$resultId'
-  id: '__root__' | '/' | '/about' | '/codes' | '/results_/$resultId'
-  fileRoutesById: FileRoutesById
+  fileRoutesByFullPath: FileRoutesByFullPath;
+  fullPaths: "/" | "/about" | "/codes" | "/results/$resultId";
+  fileRoutesByTo: FileRoutesByTo;
+  to: "/" | "/about" | "/codes" | "/results/$resultId";
+  id: "__root__" | "/" | "/about" | "/codes" | "/results_/$resultId";
+  fileRoutesById: FileRoutesById;
 }
 
 export interface RootRouteChildren {
-  IndexLazyRoute: typeof IndexLazyRoute
-  AboutRoute: typeof AboutRoute
-  CodesLazyRoute: typeof CodesLazyRoute
-  ResultsResultIdLazyRoute: typeof ResultsResultIdLazyRoute
+  IndexLazyRoute: typeof IndexLazyRoute;
+  AboutRoute: typeof AboutRoute;
+  CodesLazyRoute: typeof CodesLazyRoute;
+  ResultsResultIdLazyRoute: typeof ResultsResultIdLazyRoute;
 }
 
 const rootRouteChildren: RootRouteChildren = {
@@ -129,11 +129,11 @@ const rootRouteChildren: RootRouteChildren = {
   AboutRoute: AboutRoute,
   CodesLazyRoute: CodesLazyRoute,
   ResultsResultIdLazyRoute: ResultsResultIdLazyRoute,
-}
+};
 
 export const routeTree = rootRoute
   ._addFileChildren(rootRouteChildren)
-  ._addFileTypes<FileRouteTypes>()
+  ._addFileTypes<FileRouteTypes>();
 
 /* ROUTE_MANIFEST_START
 {

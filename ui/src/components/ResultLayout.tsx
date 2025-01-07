@@ -1,31 +1,51 @@
-import { Fragment, useState } from 'react'
-import { Dialog, Transition } from '@headlessui/react'
+import { Fragment, useState } from "react";
+import { Dialog, Transition } from "@headlessui/react";
 import {
   HomeIcon,
   TableCellsIcon,
   FolderIcon,
   AtSymbolIcon,
-  XMarkIcon as XIcon, Bars2Icon,
-} from '@heroicons/react/24/outline'
-import {classNames} from "~/lib/utils";
+  XMarkIcon as XIcon,
+  Bars2Icon,
+} from "@heroicons/react/24/outline";
+import { classNames } from "~/lib/utils";
 
 const navigation = [
-  { name: 'Home', href: '/', icon: HomeIcon, current: false },
-  { name: 'Domain Result', href: '#final-results', icon: AtSymbolIcon, current: false },
-  { name: 'Summary Table', href: '#summary-table', icon: TableCellsIcon, current: false },
-  { name: 'Link Analysis', href: '#link-analysis', icon: FolderIcon, current: false },
-]
+  { name: "Home", href: "/", icon: HomeIcon, current: false },
+  {
+    name: "Domain Result",
+    href: "#final-results",
+    icon: AtSymbolIcon,
+    current: false,
+  },
+  {
+    name: "Summary Table",
+    href: "#summary-table",
+    icon: TableCellsIcon,
+    current: false,
+  },
+  {
+    name: "Link Analysis",
+    href: "#link-analysis",
+    icon: FolderIcon,
+    current: false,
+  },
+];
 
 export function ResultLayout({ children }: { children: React.ReactNode }) {
-  const [sidebarOpen, setSidebarOpen] = useState(false)
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   return (
     <div className="h-screen flex overflow-hidden bg-gray-50">
       {/* Mobile sidebar */}
       <Transition show={sidebarOpen} as={Fragment}>
-        <Dialog as="div" className="fixed inset-0 flex z-40 md:hidden" onClose={setSidebarOpen}>
+        <Dialog
+          as="div"
+          className="fixed inset-0 flex z-40 md:hidden"
+          onClose={setSidebarOpen}
+        >
           <Transition
-              show={sidebarOpen}
+            show={sidebarOpen}
             as={Fragment}
             enter="transition-opacity ease-linear duration-300"
             enterFrom="opacity-0"
@@ -37,7 +57,7 @@ export function ResultLayout({ children }: { children: React.ReactNode }) {
             <div className="fixed inset-0 bg-gray-600 bg-opacity-75" />
           </Transition>
           <Transition
-              show={sidebarOpen}
+            show={sidebarOpen}
             as={Fragment}
             enter="transition ease-in-out duration-300 transform"
             enterFrom="-translate-x-full"
@@ -63,11 +83,16 @@ export function ResultLayout({ children }: { children: React.ReactNode }) {
                     key={item.name}
                     href={item.href}
                     className={classNames(
-                      item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
-                      'group flex items-center px-2 py-2 text-base font-medium rounded-md'
+                      item.current
+                        ? "bg-gray-900 text-white"
+                        : "text-gray-300 hover:bg-gray-700 hover:text-white",
+                      "group flex items-center px-2 py-2 text-base font-medium rounded-md",
                     )}
                   >
-                    <item.icon className="mr-4 h-6 w-6 flex-shrink-0" aria-hidden="true" />
+                    <item.icon
+                      className="mr-4 h-6 w-6 flex-shrink-0"
+                      aria-hidden="true"
+                    />
                     {item.name}
                   </a>
                 ))}
@@ -88,11 +113,16 @@ export function ResultLayout({ children }: { children: React.ReactNode }) {
                     key={item.name}
                     href={item.href}
                     className={classNames(
-                      item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
-                      'group flex items-center px-2 py-2 text-sm font-medium rounded-md'
+                      item.current
+                        ? "bg-gray-900 text-white"
+                        : "text-gray-300 hover:bg-gray-700 hover:text-white",
+                      "group flex items-center px-2 py-2 text-sm font-medium rounded-md",
                     )}
                   >
-                    <item.icon className="mr-3 h-6 w-6 flex-shrink-0" aria-hidden="true" />
+                    <item.icon
+                      className="mr-3 h-6 w-6 flex-shrink-0"
+                      aria-hidden="true"
+                    />
                     {item.name}
                   </a>
                 ))}
@@ -117,7 +147,9 @@ export function ResultLayout({ children }: { children: React.ReactNode }) {
         <main className="flex-1 relative overflow-y-auto focus:outline-none">
           <div className="py-6">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
-              <h1 className="text-2xl font-semibold text-gray-900">Domain Results</h1>
+              <h1 className="text-2xl font-semibold text-gray-900">
+                Domain Results
+              </h1>
             </div>
             <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
               <div className="py-4">{children}</div>
@@ -126,5 +158,5 @@ export function ResultLayout({ children }: { children: React.ReactNode }) {
         </main>
       </div>
     </div>
-  )
+  );
 }
