@@ -37,7 +37,7 @@ export default function SearchBar() {
   // todo: handle errors ? axios?
   const mutation = useMutation({
     mutationFn: async (urlToCheck: string) => {
-      const response = await fetch(`${concatUrl}api/search`, {
+      const response = await fetch(concatUrl, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
