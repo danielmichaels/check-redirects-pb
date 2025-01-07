@@ -12,7 +12,8 @@ type Conf struct {
 }
 
 type appConf struct {
-	// todo
+	SuperuserEmail    string `env:"SUPERUSER_EMAIL,required"`
+	SuperuserPassword string `env:"SUPERUSER_PASSWORD,required"`
 }
 type serverConf struct {
 	// todo
