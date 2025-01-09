@@ -2,6 +2,8 @@ import {useCallback, useState} from "react";
 import {redirect, useNavigate, useRouter} from "@tanstack/react-router";
 import {useMutation} from "@tanstack/react-query";
 import {toast} from "sonner";
+import {getUrlWithPort} from "~/lib/utils";
+import {POCKETBASE_URL} from "~/lib/pocketbase";
 
 const examples = [
   {
@@ -29,11 +31,16 @@ export default function SearchBar() {
   const [url, setUrl] = useState("");
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const navigate = useNavigate();
-  const router = useRouter();
+  let concatUrl = `${getUrlWithPort()}${url}`;
+    if (POCKETBASE_URL !== "/") {
+      concatUrl = `${POCKETBASE_URL}${url}`;
+    }
   // todo: handle errors ? axios?
   const mutation = useMutation({
     mutationFn: async (urlToCheck: string) => {
-      const response = await fetch("http://127.0.0.1:8090/api/search", {
+      // this is broken for prod
+      // const response = await fetch("http://127.0.0.1:8090/api/search", {
+      const response = await fetch(`${POCKETBASE_URL}api/search`, {
         method: "POST",
            headers: {
           'Content-Type': 'application/json',

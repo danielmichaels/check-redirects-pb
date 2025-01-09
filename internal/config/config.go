@@ -14,6 +14,7 @@ type Conf struct {
 type appConf struct {
 	SuperuserEmail    string `env:"SUPERUSER_EMAIL,required"`
 	SuperuserPassword string `env:"SUPERUSER_PASSWORD,required"`
+	CacheURLS         bool   `env:"CACHE_URLS,default=true"`
 }
 type serverConf struct {
 	// todo

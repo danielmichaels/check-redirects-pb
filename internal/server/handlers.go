@@ -3,6 +3,7 @@ package server
 import (
 	"context"
 	"errors"
+	"github.com/danielmichaels/checkredirects/internal/config"
 	"github.com/danielmichaels/checkredirects/internal/search"
 	"github.com/pocketbase/pocketbase/apis"
 	"github.com/pocketbase/pocketbase/core"
@@ -31,15 +32,17 @@ func (s *Server) handleSearchPOST() func(e *core.RequestEvent) error {
 			s.app.Logger().Info("failed to bind body", "err", err)
 			return e.BadRequestError("failed to parse request", err)
 		}
-		//existingRecord, _ := s.checkURL(req)
-		//if existingRecord != nil {
-		//	return e.JSON(http.StatusOK, URLResponse{
-		//		ID:     existingRecord,
-		//		Cached: true,
-		//	})
-		//}
+		if config.AppConfig().AppConf.CacheURLS {
+			existingRecord, _ := s.checkURL(req)
+			if existingRecord != nil {
+				return e.JSON(http.StatusOK, URLResponse{
+					ID:     existingRecord,
+					Cached: true,
+				})
+			}
+		}
 
-		ctx, cancel := context.WithTimeout(e.Request.Context(), 1112*time.Second)
+		ctx, cancel := context.WithTimeout(e.Request.Context(), 15*time.Second)
 		defer cancel()
 		c := search.NewURLChecker(ctx, req.URL, req.UserAgent)
 		responses, err := c.Run()
