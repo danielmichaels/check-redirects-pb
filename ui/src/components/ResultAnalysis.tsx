@@ -186,8 +186,7 @@ export function ResultAnalysis({
                             </h3>
                             {hop.ipinfo && (
                               <IpGeoVisualization
-                                lat={parseFloat(hop.ipinfo.latitude)}
-                                lon={parseFloat(hop.ipinfo.longitude)}
+                                  loc={hop.ipinfo.loc}
                               />
                             )}
                           </div>
