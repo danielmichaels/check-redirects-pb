@@ -1,8 +1,7 @@
-import {useCallback, useState} from "react";
-import {redirect, useNavigate, useRouter} from "@tanstack/react-router";
+import {useState} from "react";
+import {useNavigate} from "@tanstack/react-router";
 import {useMutation} from "@tanstack/react-query";
 import {toast} from "sonner";
-import {getUrlWithPort} from "~/lib/utils";
 import {POCKETBASE_URL} from "~/lib/pocketbase";
 
 const examples = [
@@ -29,17 +28,11 @@ const examples = [
 
 export default function SearchBar() {
   const [url, setUrl] = useState("");
+  const [isSearching, setIsSearching] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const navigate = useNavigate();
-  let concatUrl = `${getUrlWithPort()}${url}`;
-    if (POCKETBASE_URL !== "/") {
-      concatUrl = `${POCKETBASE_URL}${url}`;
-    }
-  // todo: handle errors ? axios?
   const mutation = useMutation({
     mutationFn: async (urlToCheck: string) => {
-      // this is broken for prod
-      // const response = await fetch("http://127.0.0.1:8090/api/search", {
       const response = await fetch(`${POCKETBASE_URL}api/search`, {
         method: "POST",
            headers: {
@@ -72,6 +65,7 @@ export default function SearchBar() {
     },
   });
   const handleSubmit = (e: React.FormEvent) => {
+    setIsSearching(true);
     e.preventDefault();
     setErrorMessage(null);
     if (url) {
@@ -79,6 +73,7 @@ export default function SearchBar() {
     }
   };
 const handleExampleClick = (exampleUrl: string) => {
+  setIsSearching(true);
   mutation.mutate(exampleUrl);
 };
 
@@ -103,7 +98,7 @@ const handleExampleClick = (exampleUrl: string) => {
                   value={url}
                   onChange={(e) => setUrl(e.target.value)}
                   required
-                  disabled={mutation.isPending}
+                  disabled={isSearching}
                   className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                 />
               </div>
@@ -116,7 +111,7 @@ const handleExampleClick = (exampleUrl: string) => {
                   disabled={mutation.isPending}
                   className=" justify-center py-2 px-5 w-full lg:w-1/3 md:w-3/4 xl:w-1/2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                 >
-                  {mutation.isPending ? "Searching" : "Search" }
+                  {isSearching ? "Searching" : "Search" }
                 </button>
               </div>
             </div>

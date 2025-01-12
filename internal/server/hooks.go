@@ -1,43 +1,13 @@
 package server
 
 import (
-	"crypto/rand"
 	"github.com/danielmichaels/checkredirects/internal/search"
 	"github.com/pocketbase/dbx"
 	"github.com/pocketbase/pocketbase/core"
-	"golang.org/x/crypto/bcrypt"
 	"time"
 )
 
-func generateShareToken() (string, error) {
-	// Removed visually similar characters (I,l,1), (0,O)
-	const charset = "abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ23456789"
-	const length = 7
-
-	b := make([]byte, length)
-	if _, err := rand.Read(b); err != nil {
-		return "", err
-	}
-
-	for i := range b {
-		b[i] = charset[int(b[i])%len(charset)]
-	}
-
-	return string(b), nil
-}
-
-func hashPassword(password string) (string, error) {
-	hash, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
-	if err != nil {
-		return "", err
-	}
-	return string(hash), nil
-}
-
-func checkPasswordHash(password, hash string) bool {
-	err := bcrypt.CompareHashAndPassword([]byte(hash), []byte(password))
-	return err == nil
-}
+var NonCachedURLS = []string{"https://en.wikipedia.org/wiki/Special:Random"}
 
 type URLRequest struct {
 	URL       string `json:"url"`
@@ -52,6 +22,11 @@ func (s *Server) checkURL(req URLRequest) (*string, error) {
 	record, err := s.app.FindFirstRecordByData("searches", "url", req.URL)
 	if err != nil {
 		return nil, err
+	}
+	for _, url := range NonCachedURLS {
+		if record.GetString("url") == url {
+			return nil, nil
+		}
 	}
 	return &record.Id, nil
 }
