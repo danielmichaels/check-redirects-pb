@@ -1,10 +1,11 @@
 package server
 
 import (
+	"time"
+
 	"github.com/danielmichaels/checkredirects/internal/search"
 	"github.com/pocketbase/dbx"
 	"github.com/pocketbase/pocketbase/core"
-	"time"
 )
 
 var NonCachedURLS = []string{"https://en.wikipedia.org/wiki/Special:Random"}

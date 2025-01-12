@@ -1,11 +1,12 @@
 package server
 
 import (
+	"os"
+	"strings"
+
 	_ "github.com/danielmichaels/checkredirects/migrations"
 	"github.com/pocketbase/pocketbase"
 	"github.com/pocketbase/pocketbase/plugins/migratecmd"
-	"os"
-	"strings"
 )
 
 type Server struct {

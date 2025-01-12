@@ -40,3 +40,24 @@ tasks:
     dir: ./ui
     cmds:
       - pnpm run dev
+
+  ui:lint:
+    desc: Run linting on the UI
+    dir: ./ui
+    cmds:
+      - pnpm run prettier
+
+  audit:
+    desc: Run audit on the UI and Backend
+    cmds:
+      - task: ui:lint
+      - betteralign -apply ./...
+      - task: golines
+      - golangci-lint run ./... {{.CLI_ARGS}}
+
+
+  golines:
+    desc: run golines . -w
+    cmds:
+      - golines . -w --no-reformat-tags --ignore-generated {{.CLI_ARGS}}
+

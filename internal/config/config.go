@@ -7,8 +7,8 @@ import (
 )
 
 type Conf struct {
-	AppConf appConf
 	Server  serverConf
+	AppConf appConf
 }
 
 type appConf struct {

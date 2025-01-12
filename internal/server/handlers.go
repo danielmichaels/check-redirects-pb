@@ -3,12 +3,13 @@ package server
 import (
 	"context"
 	"errors"
+	"net/http"
+	"time"
+
 	"github.com/danielmichaels/checkredirects/internal/config"
 	"github.com/danielmichaels/checkredirects/internal/search"
 	"github.com/pocketbase/pocketbase/apis"
 	"github.com/pocketbase/pocketbase/core"
-	"net/http"
-	"time"
 )
 
 func (s *Server) handleEmbeddedFrontend() func(e *core.RequestEvent) error {
