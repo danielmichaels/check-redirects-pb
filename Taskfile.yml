@@ -8,6 +8,15 @@ tasks:
     cmds:
       - task --list-all
     silent: true
+  prod:
+    desc: Run the embedded server with UI and PB together with prod
+    env:
+      NODE_ENV: production
+    cmds:
+      - |
+        air -build.pre_cmd="cd ui/ && pnpm run build" \
+        -build.args_bin="--dir=$(pwd)/pb_data \
+        --dev=true serve {{.CLI_ARGS}}"
   dev:
     desc: Run the embedded server with UI and PB together
     env:
