@@ -1,9 +1,10 @@
 package main
 
 import (
-	"github.com/danielmichaels/checkredirects/internal/server"
 	"log/slog"
 	"os"
+
+	"github.com/danielmichaels/checkredirects/internal/server"
 )
 
 func main() {

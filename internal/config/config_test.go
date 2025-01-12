@@ -9,16 +9,16 @@ import (
 )
 
 func TestConfig(t *testing.T) {
-	os.Setenv("POSTGRES_DB", "db")
-	os.Setenv("POSTGRES_PORT", "9999")
+	os.Setenv("SUPERUSER_EMAIL", "test@example.com")
+	os.Setenv("SUPERUSER_PASSWORD", "password123")
 
 	cfg := AppConfig()
 
-	if cfg.Db.Db != "db" {
-		t.Errorf("expected %q, got %q", "db", os.Getenv("POSTGRES_DB"))
+	if got, want := cfg.AppConf.SuperuserEmail, "test@example.com"; got != want {
+		t.Errorf("expected %q, got %q", want, got)
 	}
-	if cfg.Db.Port != 9999 {
-		t.Errorf("expected %q, got %q", "9999", os.Getenv("POSTGRES_PORT"))
+	if got, want := cfg.AppConf.SuperuserPassword, "password123"; got != want {
+		t.Errorf("expected %q, got %q", want, got)
 	}
 }
 

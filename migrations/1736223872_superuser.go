@@ -17,7 +17,10 @@ func init() {
 		record.Set("password", config.AppConfig().AppConf.SuperuserPassword)
 		return app.Save(record)
 	}, func(app core.App) error {
-		record, _ := app.FindAuthRecordByEmail(core.CollectionNameSuperusers, config.AppConfig().AppConf.SuperuserEmail)
+		record, _ := app.FindAuthRecordByEmail(
+			core.CollectionNameSuperusers,
+			config.AppConfig().AppConf.SuperuserEmail,
+		)
 		if record == nil {
 			return nil
 		}

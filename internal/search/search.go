@@ -11,42 +11,42 @@ import (
 )
 
 type StatusResponse struct {
-	Code   int    `json:"code"`
 	Phrase string `json:"phrase"`
+	Code   int    `json:"code"`
 }
 type Responses struct {
 	URL             string     `json:"url"`
-	TotalTime       int        `json:"total_time"`
 	FinalURL        string     `json:"final_url"`
+	Responses       []Response `json:"responses"`
+	TotalTime       int        `json:"total_time"`
 	FinalStatusCode int        `json:"final_status_code"`
 	TotalHops       int        `json:"total_hops"`
-	Responses       []Response `json:"responses"`
 }
 type Response struct {
-	ID          int                 `json:"id"`
-	Hop         int                 `json:"hop"`
+	IPInfo      interface{}         `json:"ipinfo"`
+	Headers     map[string][]string `json:"headers"`
 	URL         string              `json:"url"`
 	HTTPVersion string              `json:"http_version"`
-	StatusCode  StatusResponse      `json:"status_code"`
 	Host        string              `json:"host"`
 	Scheme      string              `json:"scheme"`
 	Path        string              `json:"path"`
 	IPAddr      string              `json:"ipaddr"`
-	TimeElapsed int                 `json:"time_elapsed"`
-	Headers     map[string][]string `json:"headers"`
 	Body        string              `json:"body"`
-	IPInfo      interface{}         `json:"ipinfo"`
+	StatusCode  StatusResponse      `json:"status_code"`
+	ID          int                 `json:"id"`
+	Hop         int                 `json:"hop"`
+	TimeElapsed int                 `json:"time_elapsed"`
 }
 
 type URLChecker struct {
+	startTime           time.Time
+	ctx                 context.Context
+	resp                *http.Response
+	client              *http.Client
 	url                 string
 	userAgent           string
-	resp                *http.Response
-	startTime           time.Time
-	hop                 int
 	responseInformation []Response
-	client              *http.Client
-	ctx                 context.Context
+	hop                 int
 }
 
 func (s *URLChecker) getTotalTime() int {

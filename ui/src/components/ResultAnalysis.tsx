@@ -185,10 +185,7 @@ export function ResultAnalysis({
                               Server IP Geolocation
                             </h3>
                             {hop.ipinfo && (
-                              <IpGeoVisualization
-                                lat={parseFloat(hop.ipinfo.latitude)}
-                                lon={parseFloat(hop.ipinfo.longitude)}
-                              />
+                              <IpGeoVisualization loc={hop.ipinfo.loc} />
                             )}
                           </div>
                         </div>

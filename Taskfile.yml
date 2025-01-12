@@ -8,6 +8,15 @@ tasks:
     cmds:
       - task --list-all
     silent: true
+  prod:
+    desc: Run the embedded server with UI and PB together with prod
+    env:
+      NODE_ENV: production
+    cmds:
+      - |
+        air -build.pre_cmd="cd ui/ && pnpm run build" \
+        -build.args_bin="--dir=$(pwd)/pb_data \
+        --dev=true serve {{.CLI_ARGS}}"
   dev:
     desc: Run the embedded server with UI and PB together
     env:
@@ -31,3 +40,24 @@ tasks:
     dir: ./ui
     cmds:
       - pnpm run dev
+
+  ui:lint:
+    desc: Run linting on the UI
+    dir: ./ui
+    cmds:
+      - pnpm run prettier
+
+  audit:
+    desc: Run audit on the UI and Backend
+    cmds:
+      - task: ui:lint
+      - betteralign -apply ./...
+      - task: golines
+      - golangci-lint run ./... {{.CLI_ARGS}}
+
+
+  golines:
+    desc: run golines . -w
+    cmds:
+      - golines . -w --no-reformat-tags --ignore-generated {{.CLI_ARGS}}
+
