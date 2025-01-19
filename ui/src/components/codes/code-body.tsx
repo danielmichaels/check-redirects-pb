@@ -7,8 +7,10 @@ interface CodeBodyProps {
 export default function CodeBody({ content }: CodeBodyProps) {
   return (
     <>
-      <div className="prose prose-slate max-w-none">
-        <ReactMarkdown>{content}</ReactMarkdown>
+      <div className="max-w-2xl mx-auto">
+        <div className="prose">
+          <ReactMarkdown>{content}</ReactMarkdown>
+        </div>
       </div>
     </>
   );
