@@ -5,6 +5,7 @@ import viteTsConfigPaths from 'vite-tsconfig-paths'
 
 export default defineConfig({
   envPrefix: "CR",
+  assetsInclude: ['**/*.md'],
   plugins: [
     TanStackRouterVite(),
     viteReact(),

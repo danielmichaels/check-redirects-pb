@@ -20,6 +20,7 @@ import { Route as AboutImport } from "./routes/about";
 const CodesLazyImport = createFileRoute("/codes")();
 const IndexLazyImport = createFileRoute("/")();
 const ResultsResultIdLazyImport = createFileRoute("/results_/$resultId")();
+const CodesCodeIdLazyImport = createFileRoute("/codes_/$codeId")();
 
 // Create/Update Routes
 
@@ -49,6 +50,14 @@ const ResultsResultIdLazyRoute = ResultsResultIdLazyImport.update({
   import("./routes/results_.$resultId.lazy").then((d) => d.Route),
 );
 
+const CodesCodeIdLazyRoute = CodesCodeIdLazyImport.update({
+  id: "/codes_/$codeId",
+  path: "/codes/$codeId",
+  getParentRoute: () => rootRoute,
+} as any).lazy(() =>
+  import("./routes/codes_.$codeId.lazy").then((d) => d.Route),
+);
+
 // Populate the FileRoutesByPath interface
 
 declare module "@tanstack/react-router" {
@@ -74,6 +83,13 @@ declare module "@tanstack/react-router" {
       preLoaderRoute: typeof CodesLazyImport;
       parentRoute: typeof rootRoute;
     };
+    "/codes_/$codeId": {
+      id: "/codes_/$codeId";
+      path: "/codes/$codeId";
+      fullPath: "/codes/$codeId";
+      preLoaderRoute: typeof CodesCodeIdLazyImport;
+      parentRoute: typeof rootRoute;
+    };
     "/results_/$resultId": {
       id: "/results_/$resultId";
       path: "/results/$resultId";
@@ -90,6 +106,7 @@ export interface FileRoutesByFullPath {
   "/": typeof IndexLazyRoute;
   "/about": typeof AboutRoute;
   "/codes": typeof CodesLazyRoute;
+  "/codes/$codeId": typeof CodesCodeIdLazyRoute;
   "/results/$resultId": typeof ResultsResultIdLazyRoute;
 }
 
@@ -97,6 +114,7 @@ export interface FileRoutesByTo {
   "/": typeof IndexLazyRoute;
   "/about": typeof AboutRoute;
   "/codes": typeof CodesLazyRoute;
+  "/codes/$codeId": typeof CodesCodeIdLazyRoute;
   "/results/$resultId": typeof ResultsResultIdLazyRoute;
 }
 
@@ -105,15 +123,27 @@ export interface FileRoutesById {
   "/": typeof IndexLazyRoute;
   "/about": typeof AboutRoute;
   "/codes": typeof CodesLazyRoute;
+  "/codes_/$codeId": typeof CodesCodeIdLazyRoute;
   "/results_/$resultId": typeof ResultsResultIdLazyRoute;
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath;
-  fullPaths: "/" | "/about" | "/codes" | "/results/$resultId";
+  fullPaths:
+    | "/"
+    | "/about"
+    | "/codes"
+    | "/codes/$codeId"
+    | "/results/$resultId";
   fileRoutesByTo: FileRoutesByTo;
-  to: "/" | "/about" | "/codes" | "/results/$resultId";
-  id: "__root__" | "/" | "/about" | "/codes" | "/results_/$resultId";
+  to: "/" | "/about" | "/codes" | "/codes/$codeId" | "/results/$resultId";
+  id:
+    | "__root__"
+    | "/"
+    | "/about"
+    | "/codes"
+    | "/codes_/$codeId"
+    | "/results_/$resultId";
   fileRoutesById: FileRoutesById;
 }
 
@@ -121,6 +151,7 @@ export interface RootRouteChildren {
   IndexLazyRoute: typeof IndexLazyRoute;
   AboutRoute: typeof AboutRoute;
   CodesLazyRoute: typeof CodesLazyRoute;
+  CodesCodeIdLazyRoute: typeof CodesCodeIdLazyRoute;
   ResultsResultIdLazyRoute: typeof ResultsResultIdLazyRoute;
 }
 
@@ -128,6 +159,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexLazyRoute: IndexLazyRoute,
   AboutRoute: AboutRoute,
   CodesLazyRoute: CodesLazyRoute,
+  CodesCodeIdLazyRoute: CodesCodeIdLazyRoute,
   ResultsResultIdLazyRoute: ResultsResultIdLazyRoute,
 };
 
@@ -144,6 +176,7 @@ export const routeTree = rootRoute
         "/",
         "/about",
         "/codes",
+        "/codes_/$codeId",
         "/results_/$resultId"
       ]
     },
@@ -155,6 +188,9 @@ export const routeTree = rootRoute
     },
     "/codes": {
       "filePath": "codes.lazy.tsx"
+    },
+    "/codes_/$codeId": {
+      "filePath": "codes_.$codeId.lazy.tsx"
     },
     "/results_/$resultId": {
       "filePath": "results_.$resultId.lazy.tsx"
