@@ -21,7 +21,7 @@ func (s *Server) handleEmbeddedFrontend() func(e *core.RequestEvent) error {
 		// add a default CSP
 		if e.Response.Header().Get("Content-Security-Policy") == "" {
 			e.Response.Header().
-				Set("Content-Security-Policy", "default-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' http://127.0.0.1:* data: blob:; connect-src 'self' http://127.0.0.1:*; script-src 'self' 'sha256-GRUzBA7PzKYug7pqxv5rJaec5bwDCw1Vo6/IXwvD3Tc='")
+				Set("Content-Security-Policy", "default-src 'self'; script-src 'self' https://umami.apps.danielms.site 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline' 'unsafe-eval'; img-src 'self' http://127.0.0.1:* data: blob: https://umami.apps.danielms.site; connect-src 'self' http://127.0.0.1:* https://umami.apps.danielms.site;")
 		}
 		return e.Next()
 	}
