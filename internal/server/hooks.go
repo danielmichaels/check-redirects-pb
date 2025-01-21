@@ -15,8 +15,12 @@ type URLRequest struct {
 	UserAgent string `json:"user_agent,omitempty"`
 }
 type URLResponse struct {
-	ID     *string `json:"id"`
-	Cached bool    `json:"cached"`
+	ID         *string `json:"id"`
+	Cached     bool    `json:"cached"`
+	URL        string  `json:"url"`
+	FinalURL   string  `json:"final_url"`
+	StatusCode int     `json:"status_code"`
+	TotalHops  int     `json:"total_hops"`
 }
 
 func (s *Server) checkURL(req URLRequest) (*string, error) {

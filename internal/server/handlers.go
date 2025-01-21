@@ -36,9 +36,18 @@ func (s *Server) handleSearchPOST() func(e *core.RequestEvent) error {
 		if config.AppConfig().AppConf.CacheURLS {
 			existingRecord, _ := s.checkURL(req)
 			if existingRecord != nil {
+				record, err := s.app.FindRecordById("searches", *existingRecord)
+				if err != nil {
+					s.app.Logger().Info("failed to find record", "err", err)
+					return e.InternalServerError("failed to find record", err)
+				}
 				return e.JSON(http.StatusOK, URLResponse{
-					ID:     existingRecord,
-					Cached: true,
+					ID:         existingRecord,
+					Cached:     true,
+					URL:        record.GetString("url"),
+					FinalURL:   record.GetString("final_url"),
+					StatusCode: record.GetInt("status_code"),
+					TotalHops:  record.GetInt("total_hops"),
 				})
 			}
 		}
@@ -61,7 +70,12 @@ func (s *Server) handleSearchPOST() func(e *core.RequestEvent) error {
 			return e.InternalServerError("failed to save responses", err)
 		}
 		return e.JSON(http.StatusOK, URLResponse{
-			ID: id,
+			ID:         id,
+			Cached:     false,
+			URL:        responses.URL,
+			FinalURL:   responses.FinalURL,
+			StatusCode: responses.FinalStatusCode,
+			TotalHops:  responses.TotalHops,
 		})
 	}
 }
