@@ -2,11 +2,11 @@
 
 > Find all hops along the way to resolving a URL.
 
-![](https://github.com/user-attachments/assets/629664fa-8537-4264-94d0-3ebec50a42bc)
-
 Check Redirects is designed to ensure you go from A to B when resolving a URL, identifying any redirects along the way.
 Instantly resolve the final URL without needing to follow the redirect chain manually. Circumvent malicious redirects,
 ad-tech, affiliates, and more. Use it to identify if your redirects or affiliates are working as intended.
+
+![wikpedia-short-url.gif](docs/wikpedia-short-url.gif)
 
 ## Features
 
