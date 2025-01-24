@@ -1,8 +1,8 @@
 # Check Redirects
 
 > Find all hops along the way to resolving a URL.
- 
-![wikipedia-short-url.mp4](docs/wikipedia-short-url.mp4)
+
+![](docs/wikipedia-short-url.mp4)
 
 Check Redirects is designed to ensure you go from A to B when resolving a URL, identifying any redirects along the way.
 Instantly resolve the final URL without needing to follow the redirect chain manually. Circumvent malicious redirects,
