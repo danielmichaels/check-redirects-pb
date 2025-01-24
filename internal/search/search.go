@@ -53,7 +53,6 @@ func (s *URLChecker) getTotalTime() int {
 	total := 0
 	for _, resp := range s.responseInformation {
 		total += resp.TimeElapsed
-		fmt.Println("TOTOAL", total)
 	}
 	return total
 }
