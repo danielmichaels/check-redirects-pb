@@ -8,7 +8,29 @@ ad-tech, affiliates, and more. Use it to identify if your redirects or affiliate
 
 ![wikpedia-short-url.gif](docs/wikpedia-short-url.gif)
 
+## Architecture
+
 A [PocketBase] application that uses a React frontend, all served from a single binary.
+
+When provided a URL, Check Redirects will resolve all the hops in the redirect chain and return the final URL.
+
+SQLite is used as the database for storing the resolved URLs. The data is not persisted between restarts, and this is
+intentional. Data is merely a cache for faster lookups of duplicate URLs. Each search query and the hops are stored in
+the database for 72 hours before being deleted, or until the application is restarted.
+
+Typically, queries are done via the frontend, but the API is also available for use in other applications.
+
+To make an API query from the command line, use the `curl` command:
+
+```bash
+curl https://check-redirects.com/api/search \
+  -d '{"url": "tars.run/XwsxjYVI32g"}' \
+  -H "Content-Type: application/json"
+```
+
+### How it Works
+
+A simplified sequence diagram of the application's flow:
 
 ```mermaid
 sequenceDiagram

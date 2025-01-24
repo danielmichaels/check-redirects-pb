@@ -16,11 +16,11 @@ type URLRequest struct {
 }
 type URLResponse struct {
 	ID         *string `json:"id"`
-	Cached     bool    `json:"cached"`
 	URL        string  `json:"url"`
 	FinalURL   string  `json:"final_url"`
 	StatusCode int     `json:"status_code"`
 	TotalHops  int     `json:"total_hops"`
+	Cached     bool    `json:"cached"`
 }
 
 func (s *Server) checkURL(req URLRequest) (*string, error) {
