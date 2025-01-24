@@ -8,14 +8,7 @@ ad-tech, affiliates, and more. Use it to identify if your redirects or affiliate
 
 ![wikpedia-short-url.gif](docs/wikpedia-short-url.gif)
 
-## Features
-
-* **URL Input:** Accepts a list of URLs as input, either from command-line arguments or a file.
-* **Redirect Detection:** Detects HTTP redirects (3xx status codes).
-* **Output:** Saves the results to the database and outputs JSON response, showing the original URL, the final URL after
-  redirects, and the status code.
-* **Embeddable:** React frontend is embedded in the Go binary.
-* **Database:** Stores the results in a SQLite database using PocketBase as the server.
+A [PocketBase] application that uses a React frontend, all served from a single binary.
 
 ```mermaid
 sequenceDiagram
@@ -88,3 +81,4 @@ public internet with admin user registration page enabled.
 [air]: https://github.com/air-verse/air
 [pnpm]: https://pnpm.io/
 [Coolify]: https://coolify.io/
+[PocketBase]: https://pocketbase.io/
