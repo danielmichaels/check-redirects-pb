@@ -23,8 +23,8 @@ Typically, queries are done via the frontend, but the API is also available for 
 To make an API query from the command line, use the `curl` command:
 
 ```bash
-curl https://check-redirects.com/api/search \
-  -d '{"url": "tars.run/XwsxjYVI32g"}' \
+curl http://localhost:8090/api/search \
+  -d '{"url": "https://example.com"}' \
   -H "Content-Type: application/json"
 ```
 
@@ -87,8 +87,8 @@ Any additional changes to the data model must be accompanied by a migration.
 
 ## Deployment
 
-A `Dockerfile` is provided for building the application. However, <https://check-redirects.com> is currently hosted on [Coolify]
-as a docker container. All other deployment methods are currently untested.
+A `Dockerfile` and [Docker Compose] file are provided for building and running the application. The lookup cache is
+intentionally ephemeral because records expire after 72 hours and are only used to speed up duplicate lookups.
 
 ### Required Environment Variables
 
@@ -102,5 +102,5 @@ public internet with admin user registration page enabled.
 [task]: https://taskfile.dev/
 [air]: https://github.com/air-verse/air
 [pnpm]: https://pnpm.io/
-[Coolify]: https://coolify.io/
+[Docker Compose]: https://docs.docker.com/compose/
 [PocketBase]: https://pocketbase.io/
