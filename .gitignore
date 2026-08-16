@@ -2,6 +2,7 @@ pb_data/
 .idea/
 node_modules/
 tmp/
+.DS_Store
 
 
 .env
