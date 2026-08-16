@@ -1,0 +1,15 @@
+services:
+  check-redirects:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    expose:
+      - "8090"
+    environment:
+      SUPERUSER_EMAIL: ${SUPERUSER_EMAIL:?SUPERUSER_EMAIL must be set}
+      SUPERUSER_PASSWORD: ${SUPERUSER_PASSWORD:?SUPERUSER_PASSWORD must be set}
+      CACHE_URLS: ${CACHE_URLS:-true}
+    # Use resolvers without content filtering for redirect targets.
+    dns:
+      - 1.1.1.1
+      - 8.8.8.8
