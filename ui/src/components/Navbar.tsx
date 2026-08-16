@@ -3,14 +3,14 @@ import { Link, useNavigate } from "@tanstack/react-router";
 import { classNames } from "~/lib/utils";
 
 const navigation = [
-  { name: "", href: "#", current: false },
-  // {name: 'Pricing', href: '/#pricing', current: false},
-  // {name: 'Docs', href: '/docs', current: false},
-];
+  { name: "", to: "/", current: false },
+  // {name: 'Pricing', to: '/#pricing', current: false},
+  // {name: 'Docs', to: '/docs', current: false},
+] as const;
 const userActions = [
-  { name: "About", href: "/about", current: false },
-  { name: "Status Codes", href: "/codes", current: false },
-];
+  { name: "About", to: "/about", current: false },
+  { name: "Status Codes", to: "/codes", current: false },
+] as const;
 
 export default function Navbar() {
   const navigate = useNavigate();
@@ -36,7 +36,7 @@ export default function Navbar() {
                     {navigation.map((item) => (
                       <Link
                         key={item.name}
-                        href={item.href}
+                        to={item.to}
                         className={classNames(
                           item.current
                             ? "bg-gray-900 text-white"
@@ -57,7 +57,7 @@ export default function Navbar() {
                     {userActions.map((item) => (
                       <Link
                         key={item.name}
-                        href={item.href}
+                        to={item.to}
                         className={classNames(
                           item.current
                             ? "bg-gray-900 text-white"
@@ -80,7 +80,7 @@ export default function Navbar() {
               {navigation.map((item) => (
                 <Link
                   key={item.name}
-                  href={item.href}
+                  to={item.to}
                   className={classNames(
                     item.current
                       ? "bg-gray-900 text-white"

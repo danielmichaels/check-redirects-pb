@@ -1,9 +1,10 @@
+import type { ReactElement, SVGProps } from "react";
 import { HopsResponse, SearchesResponse } from "~/lib/pocketbase-types";
 
 export interface SocialNavItem {
   name: string;
   href: string;
-  icon: (props: React.SVGProps<SVGSVGElement>) => JSX.Element;
+  icon: (props: SVGProps<SVGSVGElement>) => ReactElement;
 }
 
 export interface IpInfo {

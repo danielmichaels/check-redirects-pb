@@ -9,8 +9,8 @@ import (
 )
 
 func TestConfig(t *testing.T) {
-	os.Setenv("SUPERUSER_EMAIL", "test@example.com")
-	os.Setenv("SUPERUSER_PASSWORD", "password123")
+	t.Setenv("SUPERUSER_EMAIL", "test@example.com")
+	t.Setenv("SUPERUSER_PASSWORD", "password123")
 
 	cfg := AppConfig()
 
@@ -26,7 +26,9 @@ func ExampleAppConfig() {
 	type exampleStruct struct {
 		String string `env:"STRING"`
 	}
-	os.Setenv("STRING", "an example string!")
+	if err := os.Setenv("STRING", "an example string!"); err != nil {
+		panic(err)
+	}
 
 	var e exampleStruct
 	err := envdecode.StrictDecode(&e)

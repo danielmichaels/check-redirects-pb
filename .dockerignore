@@ -1,5 +1,8 @@
 tmp
 pb_data
+node_modules
+ui/node_modules
+ui/dist
 .gitignore
 .git
 Taskfile.yml
