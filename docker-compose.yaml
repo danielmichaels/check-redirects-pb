@@ -6,9 +6,9 @@ services:
     expose:
       - "8090"
     environment:
-      SUPERUSER_EMAIL: ${SUPERUSER_EMAIL:?SUPERUSER_EMAIL must be set}
-      SUPERUSER_PASSWORD: ${SUPERUSER_PASSWORD:?SUPERUSER_PASSWORD must be set}
-      CACHE_URLS: ${CACHE_URLS:-true}
+      SUPERUSER_EMAIL: ${SUPERUSER_EMAIL}
+      SUPERUSER_PASSWORD: ${SUPERUSER_PASSWORD}
+      CACHE_URLS: ${CACHE_URLS}
     # Use resolvers without content filtering for redirect targets.
     dns:
       - 1.1.1.1

@@ -56,3 +56,26 @@ func TestAppConfigError(t *testing.T) {
 		t.Errorf("expected: %q, got %q", want, err.Error())
 	}
 }
+
+func TestConfigCacheURLSDefault(t *testing.T) {
+	t.Setenv("SUPERUSER_EMAIL", "test@example.com")
+	t.Setenv("SUPERUSER_PASSWORD", "password123")
+
+	// Compose interpolates an unset CACHE_URLS to an empty string rather than
+	// omitting it, so the default must still apply when the value is present but blank.
+	t.Run("empty value falls back to the default", func(t *testing.T) {
+		t.Setenv("CACHE_URLS", "")
+
+		if got := AppConfig().AppConf.CacheURLS; !got {
+			t.Errorf("expected true, got %v", got)
+		}
+	})
+
+	t.Run("explicit false is honoured", func(t *testing.T) {
+		t.Setenv("CACHE_URLS", "false")
+
+		if got := AppConfig().AppConf.CacheURLS; got {
+			t.Errorf("expected false, got %v", got)
+		}
+	})
+}
