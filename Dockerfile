@@ -9,9 +9,9 @@ RUN mkdir -p /build/ui
 WORKDIR /build
 
 COPY ui/ ui/
-RUN cd ui && pnpm install && pnpm run build
+RUN cd ui && pnpm install --frozen-lockfile && pnpm run build
 
-FROM golang:1.23-bookworm AS builder
+FROM golang:1.26.5-bookworm AS builder
 WORKDIR /build
 
 COPY go.mod go.sum ./

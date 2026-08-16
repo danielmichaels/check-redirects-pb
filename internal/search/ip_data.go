@@ -28,7 +28,9 @@ func parseIPData(ipaddr string) (*IPInfo, error) {
 	if err != nil {
 		return nil, err
 	}
-	defer resp.Body.Close()
+	defer func() {
+		_ = resp.Body.Close()
+	}()
 
 	// Parse response
 	var info IPInfo
